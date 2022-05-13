@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<head>
+<title> NASA's Image of the Day</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="NASA image of the day">
+<meta name="keywords" content="NASA, astronomy, image of the day, star, planets">
+<meta name="author" content="Chantilly A Apollon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--stylesheet for navigation and main CSS styles-->
+<link rel="stylesheet" href="css/main.css" type="text/css">
+
+<!--datepicker style--> 
+<style>
+.ui-datepicker {
+  background: beige;
+  width: 200px;
+  height: auto;
+  margin: 5px auto 0;
+  }
+  
+.ui-datepicker-title {
+  color: darkolivegreen;
+  font-size: 20px;
+  margin: 0 2.3em;
+  }
+
+.ui-datepicker table {
+  width: 100%;
+  color:#000000;
+  background:lightcoral; 
+  }
+  
+.ui-datepicker a {
+  text-decoration:none;
+  color: black;
+  }
+
+.ui-widget-content .ui-widget-header .ui-icon {color:sienna;}
+  
+
+.ui-datepicker-calendar .ui-state-active {
+  background: dimgray;
+  -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+  -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+  color: #e0e0e0;
+  text-shadow: 0px 1px 0px #4d7a85;
+  filter: dropshadow(color=#4d7a85, offx=0, offy=1);
+  border: 1px solid sienna;
+  position: relative;
+  margin: -1px;
+}
+
+p {color:beige;}
+  
+</style>
+
+<!--API data styling-->
+<style>
+    .nasaimage {
+        color: bisque;
+      }
+
+      #explanation {
+        width: 100%;
+    }
+
+    #id {border-radius: 8px;
+        border-width: 20px;
+        border-color: sienna;}
+
+      .nasaimage {
+        align-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: black;
+      }
+      /* image size for large devices */
+      @media (min-width: 500px) {
+    .nasaimage {
+
+        max-width: 500px;
+        
+      }
+  
+    }
+
+     /* image size for small devices */
+      @media (max-width: 500px) {
+              .nasaimage {
+               width:100%;
+              }
+   
+            }
+</style>
+
+<!--cdn links-->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+<script>
+//load today's image on the pageload
+$.ajax({
+  url:"https://api.nasa.gov/planetary/apod?api_key=1xPRu8ThfYWEdSql8TZ90hWOBsz13rshRWbeoxhe",
+    success: function(whatyougot){
+    console.log(whatyougot);
+      document.getElementById("img").innerHTML="<img src='"+whatyougot.url+"' style='width:100%;' />";
+      document.getElementById("copyright").innerHTML="By " + whatyougot.copyright;
+      document.getElementById("title").innerHTML=whatyougot.title;
+      document.getElementById("explanation").innerHTML=whatyougot.explanation;
+          
+    }
+});
+
+
+$( function() {
+ $( "#dateValue" ).datepicker( {showAnim: "slideDown", dateFormat: "yy-mm-dd"} )
+ .datepicker("setDate", new Date()); //set the default display date to today's date
+ $('#dateValue').on("change",function() {
+    var requestedDate = $(this).val();
+    console.log(requestedDate);
+    //update the image to the requested date's image
+        $.ajax({
+          url:"https://api.nasa.gov/planetary/apod?date=" +requestedDate + "&api_key=1xPRu8ThfYWEdSql8TZ90hWOBsz13rshRWbeoxhe",
+            success: function(whatyougot){
+              console.log(whatyougot);
+                document.getElementById("img").innerHTML="<img src='"+whatyougot.url+"' style='width:100%;' />";
+                document.getElementById("copyright").innerHTML="By " + whatyougot.copyright;
+                document.getElementById("title").innerHTML=whatyougot.title;
+                document.getElementById("explanation").innerHTML=whatyougot.explanation;
+            //}
+          
+                    }
+      });
+ });
+})
+</script>
+</head>
+<body>
+ 
+<div class="bg-container-dark">
+      <!--desktop navigation panel-->
+      <div class="container red topBottomBordersOut">
+            <a href="index.html">HOME</a>
+            <a href="weather.html">MARS WEATHER</a>
+            <a>MARS DATA</a>
+            <a href="nasa_roverAPI.html">ROVER IMAGES</a>
+            <a href="nasa_api.html">NASA IMAGES</a>
+            <a href="aboutus.html">ABOUT</a>
+        </div>
+        <!--mobile navigation panel-->
+        <div class="mobileShow">
+            <div class="menu-btn">
+                <div class="menu-btn__burger"></div>
+            </div>
+              <nav id="nav" class="nav" role="navigation">
+              <ul class="nav__menu" id="menu" tabindex="-1" aria-label="main navigation">
+                <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                <li class="nav__item"><a href="weather.html" class="nav__link">Mars Weather</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Mars Data</a></li>
+                <li class="nav__item"><a href="nasa_roverAPI.html" class="nav__link">Rover Images</a></li>
+                <li class="nav__item"><a href="nasa_api.html" class="nav__link">NASA Images</a></li>
+                <li class="nav__item"><a href="aboutus.html" class="nav__link">About</a></li>
+              </ul>
+            </nav>
+            </div>
+<div class="main-title-subpage">
+  <h1>NASA Image of the Day</h1>
+        <p></p>
+</div>
+<!--DatePicker-->
+<div>
+  <form>
+    <fieldset>
+      <legend>Select a Date</legend>
+      <label for="dateValue"></label>
+      <input type="text" id="dateValue" id="dateValue">
+    </fieldset>
+  </form>
+<!--Nasa Image-->
+<div class="nasaimage" id="output">
+    <import id="img"></import>
+        <p id="copyright"></p>
+        <h1 id="title"></h1>
+        <p id="explanation"></p>
+</div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
